@@ -11,11 +11,12 @@ public class playermovement : movement
 
         if (Input.GetButton("Jump"))
         {
-            isJump = true;
+            DoJump();
+            _isJump = true;
         }
         else
         {
-            isJump = false;
+            _isJump = false;
         }
     }
 }
