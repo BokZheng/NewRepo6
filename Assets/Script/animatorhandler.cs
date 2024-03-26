@@ -40,11 +40,12 @@ public class animatorhandler : MonoBehaviour
     
     void UpdateAnimator()
     {
-        if (_movement != null)
-        {
-            return ;
+        if (_movement == null)
+        { 
+            return;
         }
 
+        Debug.Log(_movement.isRunning);
         _animator.SetBool("IsRunning", _movement.isRunning);
         _animator.SetBool("IsJumping", _movement.isJumping);
         _animator.SetBool("IsFalling", _movement.isFalling);

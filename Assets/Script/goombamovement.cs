@@ -19,6 +19,9 @@ public class goombamovement : movement
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (!collision.CompareTag("Boun"))
+        { return; }
+
+        FlipDirection = !FlipDirection;
     }
 }

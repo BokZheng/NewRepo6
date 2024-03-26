@@ -104,12 +104,12 @@ public class movement : MonoBehaviour
         if (targetVel.x == 0)
         {
             _isRun = false;
-            Debug.Log("K");
+            
         }
         else
         {
             _isRun = true;
-            Debug.Log("M");
+            
 
         }
     }
@@ -129,6 +129,7 @@ public class movement : MonoBehaviour
 
         if (_isGrounded && !isJumping)
         {
+            
             CanJump = true;
             if (CoyoteTime.CurrentProgress != cooldown.Progress.Ready)
             {
