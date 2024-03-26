@@ -23,11 +23,16 @@ public class movement : MonoBehaviour
 
     public LayerMask GroundLayerMask;
 
-    protected bool _isGrounded = false;
-    protected bool _isJump = false;
+    public bool _isGrounded = false;
+    public bool _isJump = false;
+    public bool _isRun = false;
+    public bool _isFall = false;
 
     public bool isJumping { get { return _isJump; } }
+    public bool isRunning { get { return _isRun; } }
     public bool isGround { get { return _isGrounded; } }
+    public bool isFalling { get { return _isFall; } }
+    public bool FlipAnis;
 
     protected Vector2 inputDirection;
 
@@ -54,13 +59,15 @@ public class movement : MonoBehaviour
         HandleMovement();
 
         BufferJumping();
+
+        Flip();
     }
 
     protected virtual void HandleInput()
     {
         
     }
-    protected virtual void DoJump()
+    public virtual void DoJump()
     {
         if (!CanJump) return;
 
@@ -72,8 +79,11 @@ public class movement : MonoBehaviour
         _isJump = true;
 
         rb.velocity = new Vector2(rb.velocity.x, jumpforce);
+        _isJump = true;
 
         CoyoteTime.StopCooldown();
+
+        
     }
 
     void HandleMovement()
@@ -90,12 +100,26 @@ public class movement : MonoBehaviour
         }
 
         rb.velocity = targetVel;
+
+        if (targetVel.x == 0)
+        {
+            _isRun = false;
+            Debug.Log("K");
+        }
+        else
+        {
+            _isRun = true;
+            Debug.Log("M");
+
+        }
     }
 
     void CheckGround()
     {
         _isGrounded = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayerMask);
         Debug.Log(_isGrounded);
+
+
 
         if(rb.velocity.y <= 0)
         {
@@ -114,7 +138,8 @@ public class movement : MonoBehaviour
 
         if (!_isGrounded && !_isJump && CoyoteTime.CurrentProgress == cooldown.Progress.Ready)
         {
-          CoyoteTime.StartCooldown();
+            CoyoteTime.StartCooldown();
+          
         }
         
     }
@@ -138,6 +163,24 @@ public class movement : MonoBehaviour
         {
             DoJump();
             _preInput = false;
+        }
+    }
+   
+    protected virtual void Flip()
+    {
+        if(inputDirection.x == 0)
+            return;
+
+        if(inputDirection.x > 0)
+        {
+            transform.localScale = new Vector2(1, 1);
+            FlipAnis = false;
+
+        }
+        if(inputDirection.x < 0)
+        {
+            transform.localScale = new Vector2(-1, 1);
+            FlipAnis = true;
         }
     }
 }
