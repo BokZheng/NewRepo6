@@ -49,5 +49,6 @@ public class animatorhandler : MonoBehaviour
         _animator.SetBool("IsRunning", _movement.isRunning);
         _animator.SetBool("IsJumping", _movement.isJumping);
         _animator.SetBool("IsFalling", _movement.isFalling);
+        
     }
 }

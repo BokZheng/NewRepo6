@@ -20,7 +20,7 @@ public class cooldown
         get { return _currentduration; }
     }
 
-    public float isoncooldown
+    public bool isoncooldown
     {
         get { return isoncooldown; }
     }
