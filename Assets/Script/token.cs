@@ -5,39 +5,56 @@ using UnityEngine;
 
 public class token : MonoBehaviour
 {
-    playermovement _movement;
-    
-    
+    public float boostForce = 10f; 
+    public float respawnTime = 3f;
+
+    public AudioClip tokenSound;
+    private AudioSource audioSource;
+
+    private Vector3 initialPosition;
+    private bool isBoosted = false;
+    private SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        initialPosition = transform.position;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.clip = tokenSound;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       
-        _movement = collision.GetComponent<playermovement>();
-        
-            if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !isBoosted)
+        {
+            audioSource.Play();
+            Rigidbody2D playerRb = collision.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
             {
-                Destroy(gameObject);
-                TokenJump();
-                
+                playerRb.velocity = new Vector2(playerRb.velocity.x, 0f); 
+                playerRb.AddForce(Vector2.up * boostForce, ForceMode2D.Impulse); 
+                isBoosted = true;
+                spriteRenderer.enabled = false;
+                Invoke("RespawnToken", respawnTime); 
             }
-       
-        
+        }
     }
-    public void TokenJump()
+
+    private void RespawnToken()
     {
-        _movement._isGrounded = true;
-        _movement.CanJump = true;
-        _movement._isJump = false;
-
-        if (Input.GetButton("Jump"))
-        {
-            _movement.DoJump();
-            _movement._isJump = true;
-        }
-        else
-        {
-            _movement._isJump = false;
-        }
+        transform.position = initialPosition; 
+        isBoosted = false;
+        spriteRenderer.enabled = true;
+        gameObject.SetActive(true); 
     }
 
-
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class playermovement : movement
 {
-   
+    
     public cooldown random;
     protected override void HandleInput()
     {
@@ -13,6 +13,7 @@ public class playermovement : movement
 
         if (Input.GetButton("Jump"))
         {
+            
             DoJump();
             _isJump = true;
         }

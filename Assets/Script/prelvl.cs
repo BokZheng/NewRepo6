@@ -11,7 +11,7 @@ public class prelvl : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
             
         }
     }

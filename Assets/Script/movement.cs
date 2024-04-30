@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build;
+
 using UnityEngine;
 
 public class movement : MonoBehaviour
@@ -8,6 +8,8 @@ public class movement : MonoBehaviour
     public float Accel = 10f;
     public float jumpforce = 50f;
 
+    public AudioClip jumpSound;
+    private AudioSource audioSource;
     //public float BufferCheckRadius = 1f;
     //public Transform BufferCheck;
     public bool _IsBuff = false;
@@ -27,7 +29,7 @@ public class movement : MonoBehaviour
     public bool _isJump = false;
     public bool _isRun = false;
     public bool _isFall = false;
-
+    
     public bool isJumping { get { return _isJump; } }
     public bool isRunning { get { return _isRun; } }
     public bool isGround { get { return _isGrounded; } }
@@ -43,6 +45,14 @@ public class movement : MonoBehaviour
     {
         rb= GetComponent<Rigidbody2D>();
         col= GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.clip = jumpSound;
+
     }
 
     // Update is called once per frame
@@ -77,9 +87,11 @@ public class movement : MonoBehaviour
         
         CanJump = false;
         _isJump = true;
-
+        audioSource.Play();
         rb.velocity = new Vector2(rb.velocity.x, jumpforce);
+        
         _isJump = true;
+        
 
         CoyoteTime.StopCooldown();
 

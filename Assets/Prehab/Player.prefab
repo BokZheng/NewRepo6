@@ -237,9 +237,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Accel: 10
   jumpforce: 8
+  _IsBuff: 0
+  _preInput: 0
   GroundCheck: {fileID: 8245390133316497418}
   GroundCheckRadius: 1
   MaxSlpoeAngle: 45
+  CoyoteTime:
+    CurrentProgress: 0
+    Duration: 1
+    _currentduration: 0
+  BufferJump:
+    CurrentProgress: 0
+    Duration: 1
+    _currentduration: 0
+  CanJump: 1
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _isGrounded: 0
+  _isJump: 0
+  _isRun: 0
+  _isFall: 0
+  FlipAnis: 0
+  jumpSound: {fileID: 8300000, guid: 6eed9fbf58ffd4b4885186f3e2a95afc, type: 3}
+  random:
+    CurrentProgress: 0
+    Duration: 1
+    _currentduration: 0
